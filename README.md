@@ -1,6 +1,6 @@
 
-# Project Title
-Final Project - Ecommerce Website
+# StepInStyle
+Final Project - Ecommerce Website(Shoes)
 
 **Student Name**: Smitkumar Rajeshbhai Radadiya  
 **Student Number**: 8952996  
