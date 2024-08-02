@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 const path = require("path");
-const ProductModel = require('./model');
+const ProductSchema = require('./product_model');
+const CartSchema = require('./cart_model');
 
 const url = 'mongodb+srv://smittt9415:i47gfsyUUyiwjhPk@webtechnology.vioqbny.mongodb.net/?retryWrites=true&w=majority&appName=WebTechnology';
 
@@ -15,10 +16,10 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Accept, Accept-Language, Accept-Encoding');
     next();
-  });
+});
 
 mongoose.connect(url)
-    .then(() => console.log('MongoDB connected...'))
+    .then(() => console.log('MongoDB connected Successfully...'))
     .catch(err => console.log(err));
 
 app.get('/', (req, res) => {
@@ -27,10 +28,21 @@ app.get('/', (req, res) => {
 
 app.get('/product', async (req, res) => {
     try {
-        const products = await ProductModel.find();
+        const products = await ProductSchema.find();
         res.status(200).send(products);
-    } catch (error) {
-        res.status(500).json({ message: err.message });
+    } catch (err) {
+        res.status(500).json(err.message);
+    }
+});
+
+app.get('/product/:id', async (req, res) => {
+    const {product_id } = req.body;
+
+    try {
+        const product = await ProductSchema.findOne({ product_id });
+        res.status(200).send(product);
+    } catch (err) {
+        res.status(500).json(err.message);
     }
 });
 
@@ -41,15 +53,44 @@ app.post('/product', async (req, res) => {
         if (!name || !description || !price || !category || !stock || !imageUrl) {
             return res.status(400).json({ error: 'All fields are required' });
         }
-        const newProduct = new ProductModel({ name, description, price, category, stock, imageUrl });
+        const newProduct = new ProductSchema({ name, description, price, category, stock, imageUrl });
 
         const addedProduct = await newProduct.save();
         res.status(200).json(addedProduct);
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message: err.message });
+        res.status(500).json(err.message);
     }
 });
+
+app.get('/cart', async (req, res) => {
+    try {
+        const carts = await CartSchema.find().populate('product_id');
+        res.status(200).send(carts);
+    } catch (err) {
+        res.status(500).json(err.message);
+    }
+});
+
+
+app.post('/cart', async (req, res) => {
+    const { user_id, product_id, quantity } = req.body;
+
+    try {
+        let cartData = await CartSchema.findOne({ product_id });
+
+        if (cartData) {
+            cartData.quantity += quantity;
+        } else {
+            cartData = new CartSchema({ user_id: user_id, product_id: product_id, quantity: quantity });
+        }
+        const newCart = await cartData.save();
+        res.status(200).json(newCart);
+    } catch (err) {
+        res.status(500).json(err.message);
+    }
+});
+
 
 // Listen Server on Specific PORT
 const PORT = 8080;
