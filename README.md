@@ -6,6 +6,11 @@ Final Project - Ecommerce Website(Shoes)
 **Student Number**: 8952996  
 **Date**: 22/07/2024
 
+### Admin Credential
+**UserName**: Admin
+**Password**: Admin@123
+
+
 ### Technology Stack
 
 **Frontend**: ReactJS  
