@@ -25,6 +25,11 @@ Final Project - Ecommerce Website(Shoes)
 - `password`: String
 - `role`: String
 
+**Categroy Schema**
+
+- `name`: String
+- `description`: String
+
 **Products Schema**
 
 - `name`: String
