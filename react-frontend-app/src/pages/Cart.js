@@ -1,37 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import '../App.css';
 import { Button, Table } from 'react-bootstrap';
-
-
-const fetchCarts = async () => {
-    try {
-        const response = await fetch(`http://localhost:8080/cart`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        throw error;
-    }
-};
+import { useNavigate } from 'react-router-dom';
 
 function CartPage() {
+    const navigate = useNavigate();
     const [carts, setCarts] = useState([]);
 
     useEffect(() => {
-        const getCarts = async () => {
-            const carts = await fetchCarts();
-            setCarts(carts);
-        };
-
-        getCarts();
+        fetchCarts();
     }, []);
 
-    const removeFromCart = (id) => {
-        const updatedCart = carts.filter(item => item._id !== id);
-        setCarts(updatedCart);
+    const fetchCarts = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/cart`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            setCarts(data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            throw error;
+        }
+    };
+    const removeFromCart = async (id) => {
+        const response = await fetch(`http://localhost:8080/cart/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            alert('Error..!! \nSomething went wrong!!');
+            return;
+        }
+        alert('Product Remove From Cart Successfully!');
+        fetchCarts();
     };
 
     return (
@@ -57,16 +62,7 @@ function CartPage() {
                                     <tr key={item._id}>
                                         <td>{item.product_id.name}</td>
                                         <td>${item.product_id.price.toFixed(2)}</td>
-                                        <td>
-                                            <input
-                                                type="number"
-                                                id={`quantity-${item.id}`}
-                                                className="form-control"
-                                                value={item.quantity}
-                                                onChange={(e) => {}}
-                                                min="1"
-                                            />
-                                        </td>
+                                        <td>{item.quantity}</td>
                                         <td>${(item.product_id.price * item.quantity).toFixed(2)}</td>
                                         <td>
                                             <Button variant="danger" onClick={() => removeFromCart(item._id)}>Remove</Button>
@@ -75,6 +71,9 @@ function CartPage() {
                                 ))}
                             </tbody>
                         </Table>
+                        <button type="submit" className="btn btn-primary" onClick={() => {
+                            navigate('/checkout')
+                        }}>Checkout</button>
                     </div>
                 )}
             </div>

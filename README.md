@@ -52,7 +52,7 @@ Final Project - Ecommerce Website(Shoes)
 
 **Project Initialization:** : Clone Project From Github then open the project.
 **Frontend Setup:** : Go to react-frontend-app and Install node module by passing `npm install` command, after that run the project using `npm run command`
-**Frontend Setup:** : Go to react-frontend-app and Install node module by passing `npm install` command, after that start server using `node app.js`
+**Frontend Setup:** : Go to node-backend-app and Install node module by passing `npm install` command, after that start server using `node app.js`
 
 ### Notes
 
