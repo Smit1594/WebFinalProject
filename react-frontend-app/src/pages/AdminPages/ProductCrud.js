@@ -110,6 +110,11 @@ const ProductCrud = () => {
                         onChange={handleChange} required />
                 </div>
                 <div className="mb-3">
+                    <label htmlFor="imageUrl" className="form-label">Image Url</label>
+                    <input type="text" id="imageUrl" name="imageUrl" className="form-control" value={formData.imageUrl}
+                        onChange={handleChange} required />
+                </div>
+                <div className="mb-3">
                     <label htmlFor="stock" className="form-label">Stock Quantity</label>
                     <input type="text" id="stock" name="stock" className="form-control" value={formData.stock}
                         onChange={handleChange} required />

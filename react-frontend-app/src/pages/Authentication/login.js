@@ -29,6 +29,7 @@ function LoginPage() {
             alert(`${data.message}`);
             localStorage.setItem('userRole', data.data.role);
             navigate('/dashboard');
+            window.location.reload();
         } catch (error) {
             console.error('Error Login:', error);
         }
