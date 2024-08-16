@@ -198,16 +198,16 @@ Follow these steps to set up and run the project:
    Clone the repository from GitHub to your local machine using the following command:
 
    git clone https://github.com/Smit1594/WebFinalProject
-   cd assignment
+   cd WebFinalProject
 
-2. **Install Dependencies for React Project**
+3. **Install Dependencies for React Project**
     cd react-frontend-app
     npm install
 
    **Start the Development Server**
    npm start(http://localhost:3000)
 
-3. **Install Dependencies for Node Project**
+4. **Install Dependencies for Node Project**
     cd node-backend-app
     npm install
 
